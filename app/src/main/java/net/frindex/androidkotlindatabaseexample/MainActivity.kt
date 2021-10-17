@@ -1,5 +1,6 @@
 package net.frindex.androidkotlindatabaseexample
 
+import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
@@ -53,6 +54,21 @@ class MainActivity : AppCompatActivity() {
             val output = "ID=" + id + " Title=" + title + " Language=" + language;
             Toast.makeText(applicationContext, output, Toast.LENGTH_SHORT).show()
         }
+
+
+        // Test
+        var inputValue = "'Alda'"
+        fun String.getFirstAndLast() = first() to last()
+        val (firstChar, lastChar) = inputValue!!.getFirstAndLast()
+        Log.i(ContentValues.TAG, "firstChar=" + firstChar);
+        Log.i(ContentValues.TAG, "lastChar=" + lastChar);
+        if(firstChar.equals("'")){
+            inputValue = inputValue.drop(1)
+        }
+        if(lastChar.equals("'")){
+            inputValue = inputValue.dropLast(1)
+        }
+        Log.i(ContentValues.TAG, "inputValue=" + inputValue);
 
 
     } // onCreate

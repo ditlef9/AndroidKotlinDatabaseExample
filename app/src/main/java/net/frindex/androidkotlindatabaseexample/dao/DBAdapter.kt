@@ -6,8 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.content.ContentValues
-
-
+import android.util.Log
 
 
 class DBAdapter (context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION) {
@@ -114,7 +113,23 @@ class DBAdapter (context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null,
         var x = 0
         if (fieldsArray != null) {
             for (field in fieldsArray) {
-                values.put(field, valuesArray?.get(x))
+
+                // Check for ' at beginning and end
+                var inputValue = valuesArray?.get(x);
+                fun String.getFirstAndLast() = first() to last()
+                val (firstChar, lastChar) = inputValue!!.getFirstAndLast()
+                Log.i(ContentValues.TAG, "firstChar=" + firstChar);
+                Log.i(ContentValues.TAG, "lastChar=" + lastChar);
+                if(firstChar.equals("'")){
+                    inputValue = inputValue.drop(1)
+                }
+                if(lastChar.equals("'")){
+                    inputValue = inputValue.dropLast(1)
+                }
+                Log.i(ContentValues.TAG, "inputValue=" + inputValue);
+
+                    // Put it
+                values.put(field, inputValue)
                 x = x+1;
             }
         }
