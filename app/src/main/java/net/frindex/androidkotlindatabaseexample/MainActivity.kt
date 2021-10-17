@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         db.rawQuery("INSERT INTO games_index (game_title, game_language) VALUES('Mitt spill', 'no')")
         db.rawQuery("INSERT INTO games_index (game_title, game_language) VALUES('My game', 'en')")
 
+
         // Select
         var cursor: Cursor? = null
         cursor = db.select("SELECT * FROM games_index ORDER BY game_id DESC")
