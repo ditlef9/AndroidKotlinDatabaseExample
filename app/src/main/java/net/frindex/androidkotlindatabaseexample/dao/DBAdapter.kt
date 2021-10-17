@@ -5,6 +5,10 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
+import android.content.ContentValues
+
+
+
 
 class DBAdapter (context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION) {
 
@@ -85,7 +89,7 @@ class DBAdapter (context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null,
 
 
     /*- 07 RawQuery ----------------------------------------------------------------- */
-    // Used for insert, update, delete, truncate
+    // Used for update, delete, truncate
     fun rawQuery(query: String?): String{
 
         val dbAdapter = this.writableDatabase
@@ -96,7 +100,36 @@ class DBAdapter (context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null,
 
     }
 
-    /*- 08 Count -------------------------------------------------------------------- */
+
+    /*- 08 Insert ------------------------------------------------------------------ */
+    fun insert(table: String?, fieldCols: String?, fieldsValues: String?): Long? {
+        val dbAdapter = this.writableDatabase
+        val values = ContentValues()
+
+        // Create arrays from fields and values
+        var fieldsArray = fieldCols?.split(",")?.toTypedArray();
+        var valuesArray = fieldsValues?.split(",")?.toTypedArray();
+
+        // Put fields
+        var x = 0
+        if (fieldsArray != null) {
+            for (field in fieldsArray) {
+                values.put(field, valuesArray?.get(x))
+                x = x+1;
+            }
+        }
+
+        // Insert into db
+        val insertedRowId: Long = dbAdapter.insert(table, null, values)
+
+        // Close db
+        dbAdapter.close()
+
+        return insertedRowId;
+    }
+
+
+    /*- 09 Count -------------------------------------------------------------------- */
     fun count(query: String?): Int?{
         return try {
             val db = this.writableDatabase
@@ -112,7 +145,8 @@ class DBAdapter (context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null,
         }
     }
 
-    /*- 09 Select ------------------------------------------------------------------ */
+
+    /*- 10 Select ------------------------------------------------------------------ */
     fun select(query: String?): Cursor? {
         val dbAdapter = this.writableDatabase
         val mCursor: Cursor = dbAdapter.rawQuery(query, null)

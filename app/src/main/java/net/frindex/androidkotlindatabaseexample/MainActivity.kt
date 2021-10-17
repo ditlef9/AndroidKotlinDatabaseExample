@@ -34,13 +34,12 @@ class MainActivity : AppCompatActivity() {
 
         // Insert
         Log.i(TAG, "- Starting insert ---------------------------------------------------- -------")
-        db.rawQuery("INSERT INTO games_index (game_title, game_language) VALUES('Mitt spill', 'no')")
-        db.rawQuery("INSERT INTO games_index (game_title, game_language) VALUES('My game', 'en')")
-
+        db.insert("games_index", "game_title, game_language", "'Mitt spill', 'no'")
+        db.insert("games_index", "game_title, game_language", "'My game', 'en'")
 
         // Select
         var cursor: Cursor? = null
-        cursor = db.select("SELECT * FROM games_index ORDER BY game_id DESC")
+        cursor = db.select("SELECT game_id, game_title, game_language FROM games_index ORDER BY game_id DESC")
         val numberOfCols = cursor!!.columnCount
         val numberOfRows = cursor.count
         val rowsSaying = "Rows in table = " + numberOfRows
