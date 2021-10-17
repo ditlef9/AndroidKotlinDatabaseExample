@@ -1,8 +1,10 @@
 package net.frindex.androidkotlindatabaseexample
 
+import android.content.ContentValues.TAG
 import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.facebook.stetho.Stetho
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         db.rawQuery("DELETE FROM games_index")
 
         // Insert
+        Log.i(TAG, "- Starting insert ---------------------------------------------------- -------")
         db.rawQuery("INSERT INTO games_index (game_title, game_language) VALUES('Mitt spill', 'no')")
         db.rawQuery("INSERT INTO games_index (game_title, game_language) VALUES('My game', 'en')")
 
